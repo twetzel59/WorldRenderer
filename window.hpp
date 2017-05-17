@@ -41,27 +41,27 @@ class Window /* final */ {
     public:
         //
 
-        class LibGLFWInitException : public core::DynamicException {
+        class LibGLFWInitException : public DynamicException {
             public:
                 LibGLFWInitException(const std::string &msg) : DynamicException(msg) {}
         };
 
-        class LibGLFWErrorException : public core::DynamicException {
+        class LibGLFWErrorException : public DynamicException {
             public:
                 LibGLFWErrorException(const std::string &msg) : DynamicException(msg) {}
         };
 
-        class LibGLInitException : public core::DynamicException {
+        class LibGLInitException : public DynamicException {
             public:
                 LibGLInitException(const std::string &msg) : DynamicException(msg) {}
         };
 
-        class WindowInitException : public core::DynamicException {
+        class WindowInitException : public DynamicException {
             public:
                 WindowInitException(const std::string &msg) : DynamicException(msg) {}
         };
 
-        class WindowIconException : public core::DynamicException {
+        class WindowIconException : public DynamicException {
             public:
                 WindowIconException(const std::string &msg) : DynamicException(msg) {}
         };
