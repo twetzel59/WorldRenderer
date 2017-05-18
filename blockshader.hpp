@@ -5,8 +5,6 @@
 #include "shader.hpp"
 
 class BlockShader : public Shader {
-    private:
-        void bindAttribLocation(GLuint index, const std::string &name);
     public:
         BlockShader(const std::string &vertex_file, const std::string &fragment_file);
         ~BlockShader() {}

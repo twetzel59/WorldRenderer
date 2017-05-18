@@ -2,9 +2,10 @@
 
 in vec4 pass_color;
 
-out vec4 color;
+out vec4 frag;
 
 void main()
 {
-    color = pass_color / 2;
+    frag = pass_color;
+    //frag = vec4(pass_color.x * pass_color.z, 0, 0, 1);
 }
