@@ -15,7 +15,7 @@ Model::Model(const std::vector<GLuint> &indices,
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof (GLuint), indices.data(), GL_STATIC_DRAW);
 
     createVbo(0, 3, positions);
-    //createVbo(1, 3, colors);
+    createVbo(1, 3, colors);
 
     //THIS CAN NOT BE REORDERED!!! VERTEX ARRAY WILL REMEMBER UNBIND, CAUSING SEGFAULT!!!
     glBindVertexArray(0);
@@ -58,13 +58,19 @@ void Model::createVbo(int index, int num_scalars_per_vertex, const std::vector<G
     glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof (GLfloat), data.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(index, num_scalars_per_vertex, GL_FLOAT, GL_FALSE, 0, nullptr);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    if(index == 1) {
+        for(GLfloat i : data)
+        std::cout << "color: " << i << std::endl;
+    }
 }
 
 void Model::draw() const {
     glBindVertexArray(m_vao);
     glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
     glDrawElements(GL_TRIANGLES, m_num_vertices, GL_UNSIGNED_INT, nullptr);
     //glDrawArrays(GL_TRIANGLES, 0, m_num_vertices);
     glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
     glBindVertexArray(0);
 }

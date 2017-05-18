@@ -1,6 +1,6 @@
 #include "shader.hpp"
 #include <fstream>
-#include <iostream>
+//#include <iostream>
 
 Shader::~Shader() {
     stop();
@@ -55,9 +55,13 @@ void Shader::link() {
     glLinkProgram(m_program_id);
     glValidateProgram(m_program_id);
 
-    GLint result;
+    GLint result = GL_TRUE;
     glGetShaderiv(m_program_id, GL_VALIDATE_STATUS, &result);
     if(result == GL_FALSE) {
+        //char buf[2048];
+        //int len;
+        //glGetProgramInfoLog(m_program_id, 2048, &len, buf);
+        //std::cout << buf << std::endl;
         throw ShaderLoadException("Failed to link shader");
     }
 }
@@ -81,6 +85,10 @@ void Shader::loadFromFiles(const std::string &vertex_file, const std::string &fr
     glDeleteShader(fragment);
 
     m_program_id = prog;
+}
+
+void Shader::bindAttribLocation(GLuint index, const std::string &name) {
+    glBindAttribLocation(m_program_id, index, name.c_str());
 }
 
 void Shader::start() {

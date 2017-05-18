@@ -19,6 +19,7 @@ class Shader {
         void loadFromFiles(const std::string &vertex_file, const std::string &fragment_file);
         void link();
         //void bindAttrib(GLuint index, const std::string &name);
+        void bindAttribLocation(GLuint index, const std::string &name);
     public:
         class ShaderLoadException : public DynamicException {
             public:

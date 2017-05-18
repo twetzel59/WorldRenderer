@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
                         1.0f, 0.0f, 0.0f,
                         0.0f, 1.0f, 0.0f,
                         0.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 0.0f
+                        0.0f, 0.0f, 0.0f,
                     });
 
     //Test that move ctor double free really is fixed.
