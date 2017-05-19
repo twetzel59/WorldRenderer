@@ -3,7 +3,10 @@
 
 Model::Model(const std::vector<GLuint> &indices,
              const std::vector<GLfloat> &positions,
-             const std::vector<GLfloat> &colors) {
+             const std::vector<GLfloat> &colors,
+             const Texture &texture)
+    :   m_tex(texture)
+{
     GLuint vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -28,11 +31,13 @@ Model::Model(const std::vector<GLuint> &indices,
 Model::Model(Model &&rhs)
     :   m_num_vertices(rhs.m_num_vertices),
         m_vao(rhs.m_vao),
-        m_vbos(rhs.m_vbos)
+        m_vbos(rhs.m_vbos),
+        m_tex(rhs.m_tex)
 {
     rhs.m_num_vertices = 0;
     rhs.m_vao = 0;
     rhs.m_vbos.clear();
+    //rhs.tex;
 }
 
 Model::~Model() {
@@ -45,7 +50,7 @@ Model::~Model() {
     }
 
     if(m_vao) {
-        std::cout << "vao: " << m_vao;
+        std::cout << "vao: " << m_vao << std::endl;
         glDeleteVertexArrays(1, &m_vao);
     }
 }
@@ -58,10 +63,6 @@ void Model::createVbo(int index, int num_scalars_per_vertex, const std::vector<G
     glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof (GLfloat), data.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(index, num_scalars_per_vertex, GL_FLOAT, GL_FALSE, 0, nullptr);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    if(index == 1) {
-        for(GLfloat i : data)
-        std::cout << "color: " << i << std::endl;
-    }
 }
 
 void Model::draw() const {

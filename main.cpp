@@ -1,7 +1,14 @@
 #include <algorithm>
 #include "blockshader.hpp"
 #include "model.hpp"
+#include "texture.hpp"
 #include "window.hpp"
+
+/**
+
+    TODO: MOVE CTOR FOR TEXTURE ??
+
+**/
 
 int main(int argc, char **argv) {
     Window win(800, 600, "WorldRenderer");
@@ -9,24 +16,32 @@ int main(int argc, char **argv) {
 
     glEnable(GL_CULL_FACE);
 
-    BlockShader shader("block.vert", "block.frag");
+    BlockShader shader("block");
+
+    Texture tex("grass");
 
     Model model_old({
                         0, 2, 1,
                         0, 3, 2
                     },
+
                     {
                         -1.0f, -1.0f, 0.0f,
                         -1.0f, 1.0f, 0.0f,
                         1.0f, 1.0f, 0.0f,
                         1.0f, -1.0f, 0.0f
                     },
+
                     {
                         1.0f, 0.0f, 0.0f,
                         0.0f, 1.0f, 0.0f,
                         0.0f, 0.0f, 1.0f,
                         0.0f, 0.0f, 0.0f,
-                    });
+                    },
+
+                    tex
+
+                    );
 
     //Test that move ctor double free really is fixed.
     Model model = std::move(model_old);

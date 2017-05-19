@@ -16,7 +16,8 @@ class Shader {
     protected:
         GLuint m_program_id;
 
-        void loadFromFiles(const std::string &vertex_file, const std::string &fragment_file);
+        //void loadFromFiles(const std::string &vertex_file, const std::string &fragment_file);
+        void loadFromFiles(const std::string &name);
         void link();
         //void bindAttrib(GLuint index, const std::string &name);
         void bindAttribLocation(GLuint index, const std::string &name);

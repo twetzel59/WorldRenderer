@@ -66,7 +66,11 @@ void Shader::link() {
     }
 }
 
-void Shader::loadFromFiles(const std::string &vertex_file, const std::string &fragment_file) {
+void Shader::loadFromFiles(const std::string &name) {
+//void Shader::loadFromFiles(const std::string &vertex_file, const std::string &fragment_file) {
+    const std::string vertex_file(std::string("shaders/" + name + ".vert"));
+    const std::string fragment_file(std::string("shaders/" + name + ".frag"));
+
     GLuint prog = glCreateProgram();
     if(!prog) {
         throw ShaderLoadException("glCreateProgram() -> 0");
