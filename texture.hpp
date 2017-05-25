@@ -23,7 +23,7 @@ class Texture /* final */ {
 
         Texture(const Texture &) = delete;
         Texture & operator=(const Texture &) = delete;
-        Texture(Texture &&) = delete;
+        Texture(Texture &&rhs);
         Texture & operator=(Texture &&) = delete;
 
         inline GLuint getId() const { return m_id; }

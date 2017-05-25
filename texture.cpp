@@ -12,26 +12,38 @@ Texture::Texture(const std::string &filename) {
         throw TextureLoadException(lodepng_error_text(error));
     }
 
+    /*
     for(unsigned char i : pixels) {
         std::cout << "pixel: " << (int)i << std::endl;
     }
+    */
 
     createGlTexture(pixels, width, height);
 }
 
 Texture::~Texture() {
     std::cout << "tex: " << m_id << std::endl;
+    //Ok if 0
     glDeleteTextures(1, &m_id);
+}
+
+Texture::Texture(Texture &&rhs)
+    :   m_id(rhs.m_id)
+{
+    rhs.m_id = 0;
 }
 
 void Texture::createGlTexture(const std::vector<unsigned char> &pixels, unsigned width, unsigned height) {
     glGenTextures(1, &m_id);
-    glBindTexture(GL_TEXTURE0, m_id);
+    glBindTexture(GL_TEXTURE_2D, m_id);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-    glTexImage2D(GL_TEXTURE0, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    glBindTexture(GL_TEXTURE0, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

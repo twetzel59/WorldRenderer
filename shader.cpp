@@ -1,6 +1,6 @@
 #include "shader.hpp"
 #include <fstream>
-//#include <iostream>
+#include <iostream>
 
 Shader::~Shader() {
     stop();
@@ -91,14 +91,32 @@ void Shader::loadFromFiles(const std::string &name) {
     m_program_id = prog;
 }
 
+GLint Shader::getUniformLocation(const std::string &name) {
+    GLint res = glGetUniformLocation(m_program_id, name.c_str());
+
+    if(res == -1) {
+        throw UniformLocationException("Failed to locate or use uniform: " + name);
+    }
+
+    return res;
+}
+
 void Shader::bindAttribLocation(GLuint index, const std::string &name) {
     glBindAttribLocation(m_program_id, index, name.c_str());
 }
 
-void Shader::start() {
+void Shader::uniform(GLint location, GLfloat value) {
+    glUniform1f(location, value);
+}
+
+void Shader::uniform(GLint location, const glm::mat4 &value) {
+    glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]);
+}
+
+void Shader::start() const {
     glUseProgram(m_program_id);
 }
 
-void Shader::stop() {
+void Shader::stop() const {
     glUseProgram(0);
 }

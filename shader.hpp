@@ -2,8 +2,10 @@
 #define SHADER_HPP_INCLUDED
 
 #include <string>
+#include <glm/mat4x4.hpp>
 #include "glad/glad.h"
 #include "dynamicexception.hpp"
+#include "transform.hpp"
 
 class Shader {
     private:
@@ -12,25 +14,36 @@ class Shader {
             Fragment = GL_FRAGMENT_SHADER
         };
 
-        GLuint loadShader(const std::string &filename, ShaderType type);
-    protected:
         GLuint m_program_id;
 
+        GLuint loadShader(const std::string &filename, ShaderType type);
+    protected:
         //void loadFromFiles(const std::string &vertex_file, const std::string &fragment_file);
         void loadFromFiles(const std::string &name);
         void link();
         //void bindAttrib(GLuint index, const std::string &name);
         void bindAttribLocation(GLuint index, const std::string &name);
+
+        GLint getUniformLocation(const std::string &name);
+        void uniform(GLint location, GLfloat value);
+        void uniform(GLint location, const glm::mat4 &value);
     public:
         class ShaderLoadException : public DynamicException {
             public:
                 ShaderLoadException(const std::string &msg) : DynamicException(msg) {}
         };
 
+        class UniformLocationException : public DynamicException {
+            public:
+                UniformLocationException(const std::string &msg) : DynamicException(msg) {}
+        };
+
         virtual ~Shader() = 0;
 
-        void start();
-        void stop();
+        void start() const;
+        void stop() const;
+
+        virtual void setTransform(const Transform &transform) = 0;
 };
 
 #endif // SHADER_HPP_INCLUDED

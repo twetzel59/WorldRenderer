@@ -4,6 +4,7 @@
 Model::Model(const std::vector<GLuint> &indices,
              const std::vector<GLfloat> &positions,
              const std::vector<GLfloat> &colors,
+             const std::vector<GLfloat> &uv,
              const Texture &texture)
     :   m_tex(texture)
 {
@@ -19,6 +20,7 @@ Model::Model(const std::vector<GLuint> &indices,
 
     createVbo(0, 3, positions);
     createVbo(1, 3, colors);
+    createVbo(2, 2, uv);
 
     //THIS CAN NOT BE REORDERED!!! VERTEX ARRAY WILL REMEMBER UNBIND, CAUSING SEGFAULT!!!
     glBindVertexArray(0);
@@ -67,11 +69,21 @@ void Model::createVbo(int index, int num_scalars_per_vertex, const std::vector<G
 
 void Model::draw() const {
     glBindVertexArray(m_vao);
+
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_tex.getId());
+
     glDrawElements(GL_TRIANGLES, m_num_vertices, GL_UNSIGNED_INT, nullptr);
-    //glDrawArrays(GL_TRIANGLES, 0, m_num_vertices);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
+
     glBindVertexArray(0);
 }
