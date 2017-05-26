@@ -43,7 +43,10 @@ class Shader {
         void start() const;
         void stop() const;
 
-        virtual void setTransform(const Transform &transform) = 0;
+        //virtual void setTransform(const Transform &transform) = 0;
+        virtual void setTransform(const glm::mat4 &transform) = 0;
+        virtual void setProjection(const glm::mat4 &projection) = 0;
+        virtual void setView(const glm::mat4 &view) = 0;
 };
 
 #endif // SHADER_HPP_INCLUDED

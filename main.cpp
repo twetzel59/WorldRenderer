@@ -1,5 +1,8 @@
 #include <utility>
+#include <cmath>
+#include <glm/trigonometric.hpp>
 #include "blockshader.hpp"
+#include "camera.hpp"
 #include "entity.hpp"
 #include "model.hpp"
 #include "texture.hpp"
@@ -50,20 +53,25 @@ int main(int argc, char **argv) {
     //Test that move ctor double free really is fixed.
     Model model = std::move(model_old);
 
-    Entity entity(model);
-    Transform t;
-    t.pos = glm::vec3(0.5f, 0.0f, 0.0f);
-    entity.setTransform(t);
+    std::pair<int, int> win_size = win.getSize();
+    Camera cam((float) win_size.first / win_size.second);
+
+    Entity entity(model, Transform(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec2(glm::radians(45.0f), 0.0f)));
 
     bool run = true;
     while(run) {
+
         glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        //shader.start();
-        //model.draw();
-        //shader.stop();
+        shader.start();
+        cam.update();
+        shader.setProjection(cam.getProjectionMatrix());
+        shader.setView(cam.getViewMatrix());
+
         entity.draw(shader);
+
+        shader.stop();
 
         win.display();
 

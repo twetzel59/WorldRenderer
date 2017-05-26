@@ -10,7 +10,11 @@ class Entity {
         const Model &m_model;
         Transform m_transform;
     public:
-        Entity(const Model &model);
+        Entity(const Model &model, const Transform &transform = Transform())
+            :   m_model(model),
+                m_transform(transform)
+        {}
+
         virtual ~Entity() {}
 
         Entity(const Entity &) = delete;

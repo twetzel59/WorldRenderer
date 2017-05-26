@@ -102,7 +102,13 @@ class Window /* final */ {
         void setIcon(const std::string &path);
         //
 
+        inline std::pair<int, int> getSize() const {    int w, h;
+                                                        glfwGetWindowSize(m_handle, &w, &h);
+                                                        return std::make_pair(w, h); }
+
         inline static const hints_type & getDefaultHints() { return default_hints; }
+        inline static double getTime() { return glfwGetTime(); }
+
         static void closeCallback(GLFWwindow *window);
         static void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
         static void sizeCallback(GLFWwindow *window, int width, int height);
