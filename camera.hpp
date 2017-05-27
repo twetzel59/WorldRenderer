@@ -21,6 +21,10 @@ class Camera {
         }
 
         void update();
+        void rotateXY(float x, float y, bool clamp_y = true);
+        void moveY(float height_offset);
+        void moveForward(float forward_offset);
+        void moveRight(float right_offset);
 
         inline const Transform & getTransform() const { return m_transform; }
         inline void setTransform(const Transform &transform) { m_transform = transform; }

@@ -125,9 +125,11 @@ void Window::setCursorDisabled() {
     glfwSetInputMode(m_handle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
+/*
 void Window::getCursorPos(double &result_x, double &result_y) {
     glfwGetCursorPos(m_handle, &result_x, &result_y);
 }
+*/
 
 void Window::setCursorPos(double x, double y) {
     glfwSetCursorPos(m_handle, x, y);

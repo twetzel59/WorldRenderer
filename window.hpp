@@ -95,7 +95,10 @@ class Window /* final */ {
 
         /* inline */ void setCursorNormal();
         /* inline */ void setCursorDisabled();
-        void getCursorPos(double &result_x, double &result_y);
+        //void getCursorPos(double &result_x, double &result_y);
+        inline std::pair<double, double> getCursorPos() const {     double x, y;
+                                                                    glfwGetCursorPos(m_handle, &x, &y);
+                                                                    return std::make_pair(x, y); }
         void setCursorPos(double x, double y);
 
         //
