@@ -22,14 +22,16 @@ void Camera::update() {
     calcualateView();
 }
 
-void Camera::rotateXY(float x, float y, bool clamp_y) {
+void Camera::rotateXY(float x, float y, bool clamp_x) {
     m_transform.rot.x += x;
     m_transform.rot.y += y;
 
-    if(m_transform.rot.x > glm::radians(90.0f)) {
-        m_transform.rot.x = glm::radians(90.0f);
-    } else if(m_transform.rot.x < glm::radians(-90.0f)) {
-        m_transform.rot.x = glm::radians(-90.0f);
+    if(clamp_x) {
+        if(m_transform.rot.x > glm::radians(90.0f)) {
+            m_transform.rot.x = glm::radians(90.0f);
+        } else if(m_transform.rot.x < glm::radians(-90.0f)) {
+            m_transform.rot.x = glm::radians(-90.0f);
+        }
     }
 }
 

@@ -21,7 +21,7 @@ class Camera {
         }
 
         void update();
-        void rotateXY(float x, float y, bool clamp_y = true);
+        void rotateXY(float x, float y, bool clamp_x = true);
         void moveY(float height_offset);
         void moveForward(float forward_offset);
         void moveRight(float right_offset);
