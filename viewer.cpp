@@ -184,7 +184,7 @@ void Viewer::run() {
     bool run = true;
     while(run) {
 
-        glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+        glClearColor(0.4f, 0.5f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.start();
@@ -222,6 +222,10 @@ void Viewer::run() {
                 case Event::EventType::Close:
                     run = false;
                     break;
+                case Event::EventType::Size:
+                    glViewport(0, 0, ev.size_ev.width, ev.size_ev.height);
+                    m_cam.viewportResize((float) ev.size_ev.width / ev.size_ev.height);
+                    break;
                 default:
                     break;
             }
@@ -234,21 +238,21 @@ void Viewer::run() {
 
 void Viewer::handleKeys() {
     if(m_win.isKeyPressed(GLFW_KEY_SPACE)) {
-        m_cam.moveY(0.04f);
+        m_cam.moveY(0.08f);
     } else if(m_win.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
-        m_cam.moveY(-0.04f);
+        m_cam.moveY(-0.08f);
     }
 
     if(m_win.isKeyPressed(GLFW_KEY_W)) {
-        m_cam.moveForward(-0.04f);
+        m_cam.moveForward(-0.08f);
     } else if(m_win.isKeyPressed(GLFW_KEY_S)) {
-        m_cam.moveForward(0.04f);
+        m_cam.moveForward(0.08f);
     }
 
     if(m_win.isKeyPressed(GLFW_KEY_A)) {
-        m_cam.moveRight(-0.04f);
+        m_cam.moveRight(-0.08f);
     } else if(m_win.isKeyPressed(GLFW_KEY_D)) {
-        m_cam.moveRight(0.04f);
+        m_cam.moveRight(0.08f);
     }
 }
 

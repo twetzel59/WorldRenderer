@@ -15,7 +15,7 @@ void Camera::calcualateView() {
 
 void Camera::calculateProjection(float aspect) {
     //m_projection_mat = glm::mat4(1.0f);
-    m_projection_mat = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
+    m_projection_mat = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
 }
 
 void Camera::update() {
@@ -47,4 +47,8 @@ void Camera::moveForward(float forward_offset) {
 void Camera::moveRight(float right_offset) {
     m_transform.pos.x += std::sin(m_transform.rot.y + glm::radians(90.0f)) * right_offset;
     m_transform.pos.z += std::cos(m_transform.rot.y + glm::radians(90.0f)) * right_offset;
+}
+
+void Camera::viewportResize(float aspect) {
+    calculateProjection(aspect);
 }

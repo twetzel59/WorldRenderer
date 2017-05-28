@@ -25,6 +25,7 @@ class Camera {
         void moveY(float height_offset);
         void moveForward(float forward_offset);
         void moveRight(float right_offset);
+        void viewportResize(float aspect);
 
         inline const Transform & getTransform() const { return m_transform; }
         inline void setTransform(const Transform &transform) { m_transform = transform; }
