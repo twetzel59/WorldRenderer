@@ -4,6 +4,7 @@
 #include <cmath>
 #include <glm/trigonometric.hpp>
 #include "blockshader.hpp"
+#include "chunk.hpp"
 #include "entity.hpp"
 #include "model.hpp"
 #include "texture.hpp"
@@ -21,42 +22,11 @@ void Viewer::run() {
 
     BlockShader shader("block");
 
-    Texture tex_old("tex");
+    Texture tex_old("grass");
     //Test that move ctor double free really is fixed.
     Texture tex = std::move(tex_old);
 
     /*
-    Model model_old({
-                        0, 2, 1,
-                        0, 3, 2
-                    },
-
-                    {
-                        -1.0f, -1.0f, 0.0f,
-                        -1.0f, 1.0f, 0.0f,
-                        1.0f, 1.0f, 0.0f,
-                        1.0f, -1.0f, 0.0f
-                    },
-
-                    {
-                        1.0f, 1.0f, 1.0f,
-                        1.0f, 1.0f, 1.0f,
-                        1.0f, 1.0f, 1.0f,
-                        1.0f, 1.0f, 1.0f,
-                    },
-
-                    {
-                        0.0f, 1.0f,
-                        0.0f, 0.0f,
-                        1.0f, 0.0f,
-                        1.0f, 1.0f
-                    },
-
-                    tex
-
-                    );
-    */
-
     Model model_old({
                         0,1,3,
                         3,1,2,
@@ -172,13 +142,16 @@ void Viewer::run() {
     Entity entity5(model, Transform(glm::vec3( 5.0f,  5.0f,  5.0f), glm::vec2(0.0f, 0.0f)));
     Entity entity6(model, Transform(glm::vec3(-5.0f,  5.0f,  5.0f), glm::vec2(0.0f, 0.0f)));
     Entity entity7(model, Transform(glm::vec3(-5.0f,  5.0f, -5.0f), glm::vec2(0.0f, 0.0f)));
+    */
+
+    Chunk chunk(tex);
 
     m_cam.setTransform(Transform(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec2(0.0f, 0.0f)));
 
     m_win.setCursorDisabled();
     m_win.setCursorPos(0.0, 0.0);
 
-    //glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
 
     bool run = true;
@@ -192,6 +165,9 @@ void Viewer::run() {
         shader.setProjection(m_cam.getProjectionMatrix());
         shader.setView(m_cam.getViewMatrix());
 
+        chunk.draw(shader);
+
+        /*
         entity0.draw(shader);
         entity1.draw(shader);
         entity2.draw(shader);
@@ -200,6 +176,7 @@ void Viewer::run() {
         entity5.draw(shader);
         entity6.draw(shader);
         entity7.draw(shader);
+        */
 
         shader.stop();
 
