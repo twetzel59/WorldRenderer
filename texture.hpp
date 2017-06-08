@@ -9,6 +9,7 @@
 class Texture /* final */ {
     private:
         GLuint m_id;
+        unsigned m_width, m_height;
 
         void createGlTexture(const std::vector<unsigned char> &pixels, unsigned width, unsigned height);
     public:
@@ -27,6 +28,8 @@ class Texture /* final */ {
         Texture & operator=(Texture &&) = delete;
 
         inline GLuint getId() const { return m_id; }
+        inline unsigned getWidth() const { return m_width; }
+        inline unsigned getHeight() const { return m_height; }
 };
 
 #endif // TEXTURE_HPP_INCLUDED

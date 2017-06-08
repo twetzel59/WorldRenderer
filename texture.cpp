@@ -5,9 +5,7 @@
 
 Texture::Texture(const std::string &filename) {
     std::vector<unsigned char> pixels;
-    unsigned width = 0;
-    unsigned height = 0;
-    unsigned error = lodepng::decode(pixels, width, height, std::string("res/") + filename + ".png");
+    unsigned error = lodepng::decode(pixels, m_width, m_height, std::string("res/") + filename + ".png");
     if(error) {
         throw TextureLoadException(lodepng_error_text(error));
     }
@@ -18,7 +16,7 @@ Texture::Texture(const std::string &filename) {
     }
     */
 
-    createGlTexture(pixels, width, height);
+    createGlTexture(pixels, m_width, m_height);
 }
 
 Texture::~Texture() {

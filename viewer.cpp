@@ -4,7 +4,8 @@
 #include <cmath>
 #include <glm/trigonometric.hpp>
 #include "blockshader.hpp"
-#include "chunk.hpp"
+//#include "chunk.hpp"
+#include "chunkmanager.hpp"
 #include "entity.hpp"
 #include "model.hpp"
 #include "texture.hpp"
@@ -22,7 +23,7 @@ void Viewer::run() {
 
     BlockShader shader("block");
 
-    Texture tex_old("grass");
+    Texture tex_old("atlas");
     //Test that move ctor double free really is fixed.
     Texture tex = std::move(tex_old);
 
@@ -144,7 +145,8 @@ void Viewer::run() {
     Entity entity7(model, Transform(glm::vec3(-5.0f,  5.0f, -5.0f), glm::vec2(0.0f, 0.0f)));
     */
 
-    Chunk chunk(tex);
+    //Chunk chunk(tex);
+    ChunkManager cmgr(tex);
 
     m_cam.setTransform(Transform(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec2(0.0f, 0.0f)));
 
@@ -165,7 +167,8 @@ void Viewer::run() {
         shader.setProjection(m_cam.getProjectionMatrix());
         shader.setView(m_cam.getViewMatrix());
 
-        chunk.draw(shader);
+        //chunk.draw(shader);
+        cmgr.draw(shader);
 
         /*
         entity0.draw(shader);
