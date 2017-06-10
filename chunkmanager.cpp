@@ -4,9 +4,10 @@ ChunkManager::ChunkManager(const Texture &tex) {
     for(int x = 0; x < k_chunks_x; ++x) {
         for(int y = 0; y < k_chunks_y; ++y) {
             for(int z = 0; z < k_chunks_z; ++z) {
-                m_chunks.emplace(std::piecewise_construct,
-                     std::forward_as_tuple(Key(x, y, z)),
-                     std::forward_as_tuple(tex, x, y, z));
+                auto result = m_chunks.emplace(std::piecewise_construct,
+                                 std::forward_as_tuple(x, y, z),
+                                 std::forward_as_tuple());
+                result.first->second.generateGeometry(tex, x, y, z);
             }
         }
     }
