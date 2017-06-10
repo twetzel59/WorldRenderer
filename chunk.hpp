@@ -14,11 +14,11 @@
 #include "texture.hpp"
 
 class Chunk /* final */ {
-    private:
+    public:
         static constexpr int k_chunk_size    = 8;
         static constexpr int k_chunk_size_sq = k_chunk_size * k_chunk_size;
         static constexpr int k_chunk_size_cb = k_chunk_size_sq * k_chunk_size;
-
+    private:
         std::array<Node, k_chunk_size_cb> m_blocks;
 
         Model *m_model;
@@ -52,6 +52,9 @@ class Chunk /* final */ {
 
         void generateGeometry(const Texture &tex, int chunk_x, int chunk_y, int chunk_z);
         void draw(BlockShader &shader);
+
+        //Sets a block in the chunk. The coords must be realative to the origin of the chunk!
+        inline void setBlock(int x, int y, int z, BlockId id) { blockAt(x, y, z) = id; }
 };
 
 #endif // CHUNK_HPP_INCLUDED

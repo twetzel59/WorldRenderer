@@ -12,9 +12,9 @@
 class ChunkManager /* final */ {
     private:
         //Chunk m_chunk;
-        static constexpr int k_chunks_x = 8;
-        static constexpr int k_chunks_y = 1;
-        static constexpr int k_chunks_z = 8;
+        static constexpr int k_chunks_x = 32;
+        static constexpr int k_chunks_y = 2;
+        static constexpr int k_chunks_z = 32;
 
         struct Key {
             std::int64_t x, y, z;

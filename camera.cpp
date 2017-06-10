@@ -15,7 +15,7 @@ void Camera::calcualateView() {
 
 void Camera::calculateProjection(float aspect) {
     //m_projection_mat = glm::mat4(1.0f);
-    m_projection_mat = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
+    m_projection_mat = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 200.0f);
 }
 
 void Camera::update() {

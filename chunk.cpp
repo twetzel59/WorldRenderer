@@ -1,15 +1,15 @@
 #include "chunk.hpp"
 #include "glm/vec3.hpp"
 #include "transform.hpp"
-#include <iostream>
 #include <cstdlib>
 
 Chunk::Chunk()
     :   m_model(nullptr),
         m_entity(nullptr)
 {
-    m_blocks.fill(Node(BlockId::Soil));
+    m_blocks.fill(Node(BlockId::Air));
 
+    /*
     for(int x = 0; x < k_chunk_size; ++x) {
         for(int y = k_chunk_size - 2; y < k_chunk_size; ++y) {
             for(int z = 0; z < k_chunk_size; ++z) {
@@ -19,6 +19,7 @@ Chunk::Chunk()
             }
         }
     }
+    */
 
     /*
     m_model = new Model(
@@ -138,11 +139,11 @@ int Chunk::index(int x, int y, int z) const {
 }
 
 Node & Chunk::blockAt(int x, int y, int z) {
-    return m_blocks[index(x, y, z)];
+    return m_blocks.at(index(x, y, z));
 }
 
 const Node & Chunk::blockAt(int x, int y, int z) const {
-    return m_blocks[index(x, y, z)];
+    return m_blocks.at(index(x, y, z));
 }
 
 void Chunk::generateGeometry(const Texture &tex, int chunk_x, int chunk_y, int chunk_z) {
@@ -222,7 +223,7 @@ void Chunk::generateGeometry(const Texture &tex, int chunk_x, int chunk_y, int c
                     //const GLfloat tex_h = ;
 
                     const GLfloat u1 = ((GLfloat)(static_cast<int>(blockAt(x, y, z).getId()) - 1)) / k_block_id_max;
-                    std::cout << "\n\n\nu1: " << u1 << "\n\n\n" << std::endl;
+                    //std::cout << "\n\n\nu1: " << u1 << "\n\n\n" << std::endl;
                     const GLfloat u2 = u1 + (1.0f / k_block_id_max);
                     const GLfloat v1 = 0.0f;
                     const GLfloat v2 = 1.0f;
