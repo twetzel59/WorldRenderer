@@ -2,6 +2,7 @@
 #define SHADER_HPP_INCLUDED
 
 #include <string>
+#include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include "glad/glad.h"
 #include "dynamicexception.hpp"
@@ -26,6 +27,7 @@ class Shader {
 
         GLint getUniformLocation(const std::string &name);
         void uniform(GLint location, GLfloat value);
+        void uniform(GLint locaiton, const glm::vec3 &value);
         void uniform(GLint location, const glm::mat4 &value);
     public:
         class ShaderLoadException : public DynamicException {
@@ -47,6 +49,8 @@ class Shader {
         virtual void setTransform(const glm::mat4 &transform) = 0;
         virtual void setProjection(const glm::mat4 &projection) = 0;
         virtual void setView(const glm::mat4 &view) = 0;
+        virtual void setSkyColor(const glm::vec3 &color) = 0;
+        virtual void setDaylight(float light) = 0;
 };
 
 #endif // SHADER_HPP_INCLUDED

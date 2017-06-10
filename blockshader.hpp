@@ -11,6 +11,8 @@ class BlockShader : public Shader {
         GLint m_loc_transform_mat;
         GLint m_loc_projection_mat;
         GLint m_loc_view_mat;
+        GLint m_loc_sky_color;
+        GLint m_loc_daylight;
     public:
         BlockShader(const std::string &name);
         //BlockShader(const std::string &vertex_file, const std::string &fragment_file);
@@ -25,6 +27,8 @@ class BlockShader : public Shader {
         void setTransform(const glm::mat4 &transform) override;
         void setProjection(const glm::mat4 &projection) override;
         void setView(const glm::mat4 &view) override;
+        void setSkyColor(const glm::vec3 &color) override;
+        void setDaylight(float light) override;
 
 };
 

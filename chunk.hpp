@@ -38,6 +38,11 @@ class Chunk /* final */ {
                 UninitializedChunkException(const std::string &msg) : DynamicException(msg) {}
         };
 
+        class OutOfRangeException : public DynamicException {
+            public:
+                OutOfRangeException(const std::string &msg) : DynamicException(msg) {}
+        };
+
         /*
         Chunk(const Texture &tex, int chunk_x, int chunk_y, int chunk_z);
         Chunk(const Texture &tex) : Chunk(tex, 0, 0, 0) {}

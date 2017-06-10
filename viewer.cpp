@@ -159,13 +159,22 @@ void Viewer::run() {
     bool run = true;
     while(run) {
 
-        glClearColor(0.4f, 0.5f, 1.0f, 1.0f);
+        m_day_night.update(m_win.getTime());
+        DayNight::DayLight day = m_day_night.getDaylight();
+        glm::vec3 sky_color = (glm::vec3(0.4f, 0.5f, 1.0f) +
+                               (glm::vec3(0.8f, 0.2f, -0.4f) * day.goldenness)
+                               ) * day.light;
+        std::cout << "sky color: " << sky_color.x << ',' << sky_color.y << ',' << sky_color.z << std::endl;
+
+        glClearColor(sky_color.x, sky_color.y, sky_color.z, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.start();
         m_cam.update();
         shader.setProjection(m_cam.getProjectionMatrix());
         shader.setView(m_cam.getViewMatrix());
+        shader.setSkyColor(sky_color);
+        shader.setDaylight(day.light);
 
         //chunk.draw(shader);
         cmgr.draw(shader);

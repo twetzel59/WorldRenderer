@@ -14,6 +14,8 @@ BlockShader::BlockShader(const std::string &name) {
     m_loc_transform_mat = getUniformLocation("transform_mat");
     m_loc_projection_mat = getUniformLocation("projection_mat");
     m_loc_view_mat = getUniformLocation("view_mat");
+    m_loc_sky_color = getUniformLocation("sky_color");
+    m_loc_daylight = getUniformLocation("daylight");
 }
 
 /*
@@ -34,4 +36,12 @@ void BlockShader::setProjection(const glm::mat4 &projection) {
 
 void BlockShader::setView(const glm::mat4 &view) {
     uniform(m_loc_view_mat, view);
+}
+
+void BlockShader::setSkyColor(const glm::vec3 &color) {
+    uniform(m_loc_sky_color, color);
+}
+
+void BlockShader::setDaylight(float light) {
+    uniform(m_loc_daylight, light);
 }

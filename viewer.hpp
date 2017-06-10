@@ -2,12 +2,14 @@
 #define VIEWER_HPP_INCLUDED
 
 #include "camera.hpp"
+#include "daynight.hpp"
 #include "window.hpp"
 
 class Viewer /* final */ {
     private:
         Window m_win;
         Camera m_cam;
+        DayNight m_day_night;
 
         void run();
         void handleKeys();

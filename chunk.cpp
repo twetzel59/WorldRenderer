@@ -139,11 +139,19 @@ int Chunk::index(int x, int y, int z) const {
 }
 
 Node & Chunk::blockAt(int x, int y, int z) {
-    return m_blocks.at(index(x, y, z));
+    if(x < k_chunk_size && y < k_chunk_size && z < k_chunk_size) {
+        return m_blocks[index(x, y, z)];
+    } else {
+        throw OutOfRangeException("Coords are too large");
+    }
 }
 
 const Node & Chunk::blockAt(int x, int y, int z) const {
-    return m_blocks.at(index(x, y, z));
+    if(x < k_chunk_size && y < k_chunk_size && z < k_chunk_size) {
+        return m_blocks[index(x, y, z)];
+    } else {
+        throw OutOfRangeException("Coords are too large");
+    }
 }
 
 void Chunk::generateGeometry(const Texture &tex, int chunk_x, int chunk_y, int chunk_z) {

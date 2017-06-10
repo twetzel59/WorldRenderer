@@ -109,6 +109,10 @@ void Shader::uniform(GLint location, GLfloat value) {
     glUniform1f(location, value);
 }
 
+void Shader::uniform(GLint locaiton, const glm::vec3 &value) {
+    glUniform3f(locaiton, value.x, value.y, value.z);
+}
+
 void Shader::uniform(GLint location, const glm::mat4 &value) {
     glUniformMatrix4fv(location, 1, GL_FALSE, &value[0][0]);
 }

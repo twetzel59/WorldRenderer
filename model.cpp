@@ -1,5 +1,5 @@
 #include "model.hpp"
-#include <iostream>
+//#include <iostream>
 
 Model::Model(const std::vector<GLuint> &indices,
              const std::vector<GLfloat> &positions,
@@ -44,15 +44,17 @@ Model::Model(Model &&rhs)
 
 Model::~Model() {
     if(m_vbos.size()) {
+        /*
         for(GLuint i : m_vbos) {
             std::cout << "vbo: " << i << std::endl;
         }
+        */
 
         glDeleteBuffers(m_vbos.size(), m_vbos.data());
     }
 
     if(m_vao) {
-        std::cout << "vao: " << m_vao << std::endl;
+        //std::cout << "vao: " << m_vao << std::endl;
         glDeleteVertexArrays(1, &m_vao);
     }
 }
