@@ -30,6 +30,33 @@ Model::Model(const std::vector<GLuint> &indices,
     m_vao = vao;
 }
 
+Model::Model(const std::vector<GLuint> &indices,
+             const std::vector<GLfloat> &positions,
+             const std::vector<GLfloat> &uv,
+             const Texture &texture)
+    :   m_tex(texture)
+{
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+    GLuint vbo_indices;
+    glGenBuffers(1, &vbo_indices);
+    m_vbos.push_back(vbo_indices);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo_indices);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof (GLuint), indices.data(), GL_STATIC_DRAW);
+
+    createVbo(0, 3, positions);
+    createVbo(1, 2, uv);
+
+    //THIS CAN NOT BE REORDERED!!! VERTEX ARRAY WILL REMEMBER UNBIND, CAUSING SEGFAULT!!!
+    glBindVertexArray(0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    m_num_vertices = indices.size();
+    m_vao = vao;
+}
+
 Model::Model(Model &&rhs)
     :   m_num_vertices(rhs.m_num_vertices),
         m_vao(rhs.m_vao),
@@ -72,9 +99,11 @@ void Model::createVbo(int index, int num_scalars_per_vertex, const std::vector<G
 void Model::draw() const {
     glBindVertexArray(m_vao);
 
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
+    for(int i = 0; i < (signed) m_vbos.size() - 1; ++i) {
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
+    }
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_tex.getId());
@@ -83,9 +112,11 @@ void Model::draw() const {
 
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
+    for(int i = 0; i < (signed) m_vbos.size() - 1; ++i) {
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+        glDisableVertexAttribArray(2);
+    }
 
     glBindVertexArray(0);
 }

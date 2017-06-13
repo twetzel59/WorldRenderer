@@ -27,7 +27,7 @@ class Entity {
 
         inline void setTransform(const Transform &transform) { m_transform = transform; }
 
-        void draw(Shader &shader) const;
+        void draw(Shader &shader, bool translate_x = true, bool translate_y = true, bool translate_z = true) const;
 };
 
 #endif // ENTITY_HPP_INCLUDED

@@ -17,9 +17,9 @@ const float fog_gradient = 4.0;
 
 void main()
 {
-    vec4 camera_coords = view_mat * transform_mat * vec4(pos, 1.0);
-    gl_Position = projection_mat * camera_coords;
+    vec4 camera_relative = view_mat * transform_mat * vec4(pos, 1.0);
+    gl_Position = projection_mat * camera_relative;
     pass_color = vec4(color, 1.0);
     pass_uv = uv;
-    visibility = clamp(exp(-pow(length(camera_coords.xyz) * fog_density, fog_gradient)), 0.0, 1.0);
+    visibility = clamp(exp(-pow(length(camera_relative.xyz) * fog_density, fog_gradient)), 0.0, 1.0);
 }

@@ -6,6 +6,8 @@
 #include "blockshader.hpp"
 //#include "chunk.hpp"
 #include "chunkmanager.hpp"
+#include "clouds.hpp"
+#include "cloudshader.hpp"
 #include "entity.hpp"
 #include "model.hpp"
 #include "texture.hpp"
@@ -21,132 +23,23 @@ Viewer::Viewer()
 
 void Viewer::run() {
 
-    BlockShader shader("block");
+    BlockShader block_shader;
+    CloudShader cloud_shader;
 
-    Texture tex_old("atlas");
+    Texture atlas_old("atlas");
     //Test that move ctor double free really is fixed.
-    Texture tex = std::move(tex_old);
+    Texture atlas = std::move(atlas_old);
 
-    /*
-    Model model_old({
-                        0,1,3,
-                        3,1,2,
-                        4,5,7,
-                        7,5,6,
-                        8,9,11,
-                        11,9,10,
-                        12,13,15,
-                        15,13,14,
-                        16,17,19,
-                        19,17,18,
-                        20,21,23,
-                        23,21,22
-                    },
-                    {
-                        -0.5f,0.5f,-0.5f,
-                        -0.5f,-0.5f,-0.5f,
-                        0.5f,-0.5f,-0.5f,
-                        0.5f,0.5f,-0.5f,
+    ChunkManager cmgr(atlas);
 
-                        -0.5f,0.5f,0.5f,
-                        -0.5f,-0.5f,0.5f,
-                        0.5f,-0.5f,0.5f,
-                        0.5f,0.5f,0.5f,
+    /** TODO: TEMPORARY **/
+    Texture clouds_tex("clouds");
+    glBindTexture(GL_TEXTURE_2D, clouds_tex.getId());
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-                        0.5f,0.5f,-0.5f,
-                        0.5f,-0.5f,-0.5f,
-                        0.5f,-0.5f,0.5f,
-                        0.5f,0.5f,0.5f,
-
-                        -0.5f,0.5f,-0.5f,
-                        -0.5f,-0.5f,-0.5f,
-                        -0.5f,-0.5f,0.5f,
-                        -0.5f,0.5f,0.5f,
-
-                        -0.5f,0.5f,0.5f,
-                        -0.5f,0.5f,-0.5f,
-                        0.5f,0.5f,-0.5f,
-                        0.5f,0.5f,0.5f,
-
-                        -0.5f,-0.5f,0.5f,
-                        -0.5f,-0.5f,-0.5f,
-                        0.5f,-0.5f,-0.5f,
-                        0.5f,-0.5f,0.5f
-                    },
-
-                    {
-                        1.0f,1.0f,1.0f,
-                        1.0f,1.0f,1.0f,
-                        1.0f,1.0f,1.0f,
-
-                        1.0f,1.0f,1.0f,
-                        1.0f,1.0f,1.0f,
-                        1.0f,1.0f,1.0f,
-
-                        1.0f,1.0f,1.0f,
-                        1.0f,1.0f,1.0f,
-                        1.0f,1.0f,1.0f,
-
-                        1.0f,1.0f,1.0f,
-                        1.0f,1.0f,1.0f,
-                        1.0f,1.0f,1.0f,
-
-                        1.0f,1.0f,1.0f,
-                        1.0f,1.0f,1.0f,
-                        1.0f,1.0f,1.0f,
-
-                        1.0f,1.0f,1.0f,
-                        1.0f,1.0f,1.0f,
-                        1.0f,1.0f,1.0f
-                    },
-
-                    {
-                        0,0,
-                        0,1,
-                        1,1,
-                        1,0,
-                        0,0,
-                        0,1,
-                        1,1,
-                        1,0,
-                        0,0,
-                        0,1,
-                        1,1,
-                        1,0,
-                        0,0,
-                        0,1,
-                        1,1,
-                        1,0,
-                        0,0,
-                        0,1,
-                        1,1,
-                        1,0,
-                        0,0,
-                        0,1,
-                        1,1,
-                        1,0
-                    },
-
-                    tex
-
-                    );
-
-    //Test that move ctor double free really is fixed.
-    Model model = std::move(model_old);
-
-    //Entity entity(model, Transform(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec2(glm::radians(45.0f), 0.0f)));
-    Entity entity0(model, Transform(glm::vec3( 5.0f, -5.0f, -5.0f), glm::vec2(0.0f, 0.0f)));
-    Entity entity1(model, Transform(glm::vec3( 5.0f, -5.0f,  5.0f), glm::vec2(0.0f, 0.0f)));
-    Entity entity2(model, Transform(glm::vec3(-5.0f, -5.0f,  5.0f), glm::vec2(0.0f, 0.0f)));
-    Entity entity3(model, Transform(glm::vec3(-5.0f, -5.0f, -5.0f), glm::vec2(0.0f, 0.0f)));
-    Entity entity4(model, Transform(glm::vec3( 5.0f,  5.0f, -5.0f), glm::vec2(0.0f, 0.0f)));
-    Entity entity5(model, Transform(glm::vec3( 5.0f,  5.0f,  5.0f), glm::vec2(0.0f, 0.0f)));
-    Entity entity6(model, Transform(glm::vec3(-5.0f,  5.0f,  5.0f), glm::vec2(0.0f, 0.0f)));
-    Entity entity7(model, Transform(glm::vec3(-5.0f,  5.0f, -5.0f), glm::vec2(0.0f, 0.0f)));
-    */
-
-    //Chunk chunk(tex);
-    ChunkManager cmgr(tex);
+    Clouds clouds(clouds_tex);
 
     m_cam.setTransform(Transform(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec2(0.0f, 0.0f)));
 
@@ -169,28 +62,37 @@ void Viewer::run() {
         glClearColor(sky_color.x, sky_color.y, sky_color.z, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        shader.start();
+        //Blocks
+
+        block_shader.start();
+
         m_cam.update();
-        shader.setProjection(m_cam.getProjectionMatrix());
-        shader.setView(m_cam.getViewMatrix());
-        shader.setSkyColor(sky_color);
-        shader.setDaylight(day.light);
 
-        //chunk.draw(shader);
-        cmgr.draw(shader);
+        block_shader.setProjection(m_cam.getProjectionMatrix());
+        block_shader.setView(m_cam.getViewMatrix());
+        block_shader.setSkyColor(sky_color);
+        block_shader.setDaylight(day.light);
 
-        /*
-        entity0.draw(shader);
-        entity1.draw(shader);
-        entity2.draw(shader);
-        entity3.draw(shader);
-        entity4.draw(shader);
-        entity5.draw(shader);
-        entity6.draw(shader);
-        entity7.draw(shader);
-        */
+        cmgr.draw(block_shader);
 
-        shader.stop();
+        block_shader.stop();
+
+        //
+
+        //Clouds
+
+        cloud_shader.start();
+
+        cloud_shader.setProjection(m_cam.getProjectionMatrix());
+        cloud_shader.setView(m_cam.getViewMatrix());
+        cloud_shader.setSkyColor(sky_color);
+        cloud_shader.setDaylight(day.light);
+
+        clouds.draw(cloud_shader);
+
+        cloud_shader.stop();
+
+        //
 
         m_win.display();
 

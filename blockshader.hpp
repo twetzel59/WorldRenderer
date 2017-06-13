@@ -14,9 +14,9 @@ class BlockShader : public Shader {
         GLint m_loc_sky_color;
         GLint m_loc_daylight;
     public:
-        BlockShader(const std::string &name);
+        BlockShader();
         //BlockShader(const std::string &vertex_file, const std::string &fragment_file);
-        ~BlockShader() {}
+        virtual ~BlockShader() {}
 
         BlockShader(const BlockShader &) = delete;
         BlockShader & operator=(const BlockShader &) = delete;

@@ -19,6 +19,12 @@ class Model {
                 const std::vector<GLfloat> &colors,
                 const std::vector<GLfloat> &uv,
                 const Texture &texture );
+
+        Model(  const std::vector<GLuint> &indices,
+                const std::vector<GLfloat> &positions,
+                const std::vector<GLfloat> &uv,
+                const Texture &texture );
+
         ~Model();
 
         Model(const Model &) = delete;

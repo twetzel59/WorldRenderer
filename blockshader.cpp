@@ -1,9 +1,9 @@
 #include "blockshader.hpp"
 #include <iostream>
 
-BlockShader::BlockShader(const std::string &name) {
+BlockShader::BlockShader() {
 
-    loadFromFiles(name);
+    loadFromFiles("block");
 
     bindAttribLocation(0, "pos");
     bindAttribLocation(1, "color");
